@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use this computational result, please cite this repository and Pintér's 18-vertex construction."
+title: "The minimum order of a subcubic K4-minor-free graph without a crumby coloring"
+type: software
+authors:
+  - family-names: Dunzelman
+    given-names: Nicholas
+date-released: 2026-07-15
+repository-code: "https://github.com/dicnunz/crumby-minimum-18"
+url: "https://github.com/dicnunz/crumby-minimum-18"
+keywords:
+  - graph theory
+  - crumby coloring
+  - partial 2-tree
+  - computational proof
