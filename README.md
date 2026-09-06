@@ -46,6 +46,25 @@ The release check verifies every file hash, independently checks every graph
 and coloring, and repeats the full nauty/Traces duplicate audit. A successful
 run ends with `release-check=PASS`.
 
+## Inspect an individual certificate
+
+The [interactive example](https://dicnunz.github.io/demos/crumby/) shows the
+last released order-17 graph and its coloring. Select vertices to try other
+colorings, inspect rule violations, restore the witness, or download the record.
+The example is a saved, checked certificate; it is not a live enumeration.
+
+To create the same standalone HTML inspector for any released record:
+
+```bash
+python3 inspect_certificate.py certs/data --order 17 --index 2917955 --output certificate.html
+python3 -m unittest -v test_inspect_certificate.py
+```
+
+The index is one-based. The inspector checks the selected record's adjacency
+key, graph structure, and coloring before writing output. It reuses
+`verify_independent.py`; it is an interface to that verifier, not an additional
+independent verifier. A single record does not certify the complete enumeration.
+
 ## Regenerate everything
 
 The complete deterministic generation starts from the one-vertex graph:
