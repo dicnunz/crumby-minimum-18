@@ -6,8 +6,8 @@ authors:
   - family-names: Dunzelman
     given-names: Nicholas
 date-released: 2026-07-15
-repository-code: "https://github.com/dicnunz/crumby-minimum-18"
-url: "https://github.com/dicnunz/crumby-minimum-18"
+repository-code: "https://github.com/dicnunz/crumby"
+url: "https://github.com/dicnunz/crumby"
 keywords:
   - graph theory
   - crumby coloring

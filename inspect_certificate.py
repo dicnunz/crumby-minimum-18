@@ -93,7 +93,7 @@ button{font:inherit;font-size:13px;border:1px solid #abbcc1;border-radius:6px;ba
 <footer class="scope"><p><strong>What was checked:</strong> the generator of this page matched this record's adjacency key to its graph6 encoding, checked connectedness, maximum degree three, treewidth at most two, and the coloring witness using <code>verify_independent.py</code>.</p>
 <p><strong>Scope:</strong> this page checks one record. It does not establish that the enumeration is exhaustive, certify the complete corpus, or supply peer review. Run <code>verify_release.sh</code> against the full certificate archive for the repository's release checks.</p>
 <p>József Pintér: 18-vertex construction and hand proof. Nicholas Dunzelman with GPT-5.6 Pro / ChatGPT: minimality computation and verification package.</p>
-<a href="https://github.com/dicnunz/crumby-minimum-18">Source and complete verification instructions</a></footer>
+<a href="https://github.com/dicnunz/crumby">Source and complete verification instructions</a></footer>
 <script id="certificate" type="application/json">CERTIFICATE_PAYLOAD</script>
 <script>
 'use strict';
