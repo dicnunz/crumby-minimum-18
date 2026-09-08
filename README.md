@@ -1,4 +1,4 @@
-# Crumby
+# Crumby Coloring
 
 This repository contains a reproducible computational proof of the following
 result:
@@ -33,7 +33,7 @@ brew install nauty zstd
 ```
 
 Download the complete 43 MB certificate archive from the
-[v1.0.0 release](https://github.com/dicnunz/crumby/releases/tag/v1.0.0),
+[v1.0.0 release](https://github.com/dicnunz/crumby-coloring/releases/tag/v1.0.0),
 then run:
 
 ```bash
