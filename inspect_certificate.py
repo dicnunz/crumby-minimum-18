@@ -61,6 +61,9 @@ def render(record: dict) -> str:
 HTML = '''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Crumby coloring · Certificate inspector</title>
+<meta name="description" content="Inspect a released graph-coloring certificate, recolor vertices, and check the three crumby-coloring rules.">
+<meta property="og:title" content="Crumby coloring · Certificate inspector">
+<meta property="og:description" content="Inspect a released graph-coloring certificate, recolor vertices, and check the three crumby-coloring rules.">
 <style>
 :root{font-family:system-ui,-apple-system,sans-serif;color:#172c37;background:#f3f1ea;line-height:1.6;color-scheme:light}
 *{box-sizing:border-box}body{margin:0}main{max-width:1140px;margin:auto;padding:48px 24px}a{color:#1b5b77;text-underline-offset:4px}
@@ -81,7 +84,7 @@ button{font:inherit;font-size:13px;border:1px solid #abbcc1;border-radius:6px;ba
 <header><p class="eyebrow">Graph certificates / Crumby colorings</p><h1>A coloring you can inspect.</h1>
 <p>Explore one checked graph and its released coloring witness. Change a vertex's color to see which rule breaks, then restore the certificate.</p></header>
 <div class="workspace"><section class="graph-panel" aria-labelledby="graph-title">
-<div class="panel-head"><h2 id="graph-title">Selected graph</h2><button id="reset">Restore witness</button></div>
+<div class="panel-head"><h2 id="graph-title">Selected graph</h2><div><button id="undo" disabled>Undo</button> <button id="reset">Restore witness</button></div></div>
 <svg id="graph" viewBox="0 0 480 480" role="group" aria-label="Interactive graph. Select a vertex to change its color."></svg>
 <div class="legend"><span><i class="dot" style="background:#b5533d"></i>Red vertices</span><span><i class="dot" style="background:#336b9c"></i>Blue vertices</span></div>
 <p class="small">Vertex labels are zero-based. You can also use the buttons below or Tab and Enter on the graph.</p><div id="vertices" class="vertices" aria-label="Vertex colors"></div>
@@ -99,6 +102,7 @@ button{font:inherit;font-size:13px;border:1px solid #abbcc1;border-radius:6px;ba
 'use strict';
 const record=JSON.parse(document.getElementById('certificate').textContent);
 let red=new Set(record.red);
+const history=[];
 const ns='http://www.w3.org/2000/svg',graph=document.getElementById('graph');
 const adjacency=Array.from({length:record.order},()=>[]);
 record.edges.forEach(([a,b])=>{adjacency[a].push(b);adjacency[b].push(a)});
@@ -112,8 +116,9 @@ for(let i=0;i<record.order;i++){
  const b=document.createElement('button');b.textContent=i;b.addEventListener('click',()=>toggle(i));document.getElementById('vertices').append(b);buttons.push(b);
 }
 for(const[label,value]of [['Order',record.order+' vertices'],['Record',record.index+' (one-based)'],['Edges',record.edges.length],['graph6',record.graph6],['Key',record.key],['Red mask',record.witness]]){const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=label;dd.textContent=value;document.getElementById('record').append(dt,dd)}
-function toggle(i){red.has(i)?red.delete(i):red.add(i);refresh()}
+function toggle(i){history.push([...red]);red.has(i)?red.delete(i):red.add(i);refresh()}
 function refresh(){
+ document.getElementById("undo").disabled=history.length===0;
  const violations=[];
  for(let i=0;i<record.order;i++){
   if(red.has(i)){if(!adjacency[i].some(v=>red.has(v)))violations.push('Red vertex '+i+' has no red neighbor.')}
@@ -127,7 +132,8 @@ function refresh(){
  const list=document.getElementById('violations');list.replaceChildren();violations.forEach(text=>{const li=document.createElement('li');li.textContent=text;list.append(li)});
  nodes.forEach((g,i)=>{const color=red.has(i)?'red':'blue';g.firstChild.setAttribute('fill',red.has(i)?'#b5533d':'#336b9c');g.setAttribute('aria-label','Vertex '+i+', '+color+'. Change color.');g.setAttribute('aria-pressed',String(red.has(i)));buttons[i].setAttribute('aria-pressed',String(red.has(i)));buttons[i].setAttribute('aria-label','Vertex '+i+', '+color+'. Change color.')});
 }
-document.getElementById('reset').addEventListener('click',()=>{red=new Set(record.red);refresh()});
+document.getElementById('undo').addEventListener('click',()=>{if(history.length){red=new Set(history.pop());refresh()}});
+document.getElementById('reset').addEventListener('click',()=>{if(record.red.length!==red.size||record.red.some(v=>!red.has(v))){history.push([...red]);red=new Set(record.red);refresh()}});
 document.getElementById('download').addEventListener('click',()=>{const url=URL.createObjectURL(new Blob([JSON.stringify(record,null,2)+'\\n'],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='certificate-n'+record.order+'-record'+record.index+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)});
 refresh();
 </script></main></body></html>
