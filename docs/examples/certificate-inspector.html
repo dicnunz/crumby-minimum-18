@@ -20,8 +20,13 @@ button{font:inherit;font-size:13px;border:1px solid #abbcc1;border-radius:6px;ba
 .scope{margin-top:24px;padding:22px 0;border-top:1px solid #cbd1cf;max-width:860px;font-size:14px}.scope p{margin:0 0 12px}.scope strong{font-weight:600}
 @media(max-width:750px){main{padding:28px 16px}.workspace{grid-template-columns:1fr}.graph-panel,.details{padding:18px}}
 @media print{button,.vertices{display:none}main{padding:0}.workspace{grid-template-columns:1fr 1fr}.graph-panel,.details{break-inside:avoid}}
+
+/* Direct manipulation beside the rules, following Appleton's inspectable programming interfaces. */
+:root{font-family:Helvetica,Arial,sans-serif;color:#222721;background:#fafaf8}main{max-width:1320px;padding:32px 40px}.eyebrow{text-transform:none;letter-spacing:0;font:13px Helvetica,Arial,sans-serif;margin-bottom:8px}h1{font:500 clamp(30px,4vw,44px)/1.15 Helvetica,Arial,sans-serif;letter-spacing:-.035em;margin-bottom:12px}header>p{font-size:16px;max-width:760px;margin-bottom:24px}.workspace{grid-template-columns:minmax(0,1.6fr) minmax(300px,1fr);gap:28px;border-top:2px solid #222721}.graph-panel,.details{background:transparent;border:0;border-radius:0;padding:22px 0}.details{border-left:1px solid #d1d5ce;padding-left:28px}h2{font-size:20px;font-weight:500}.panel-head{gap:12px;flex-wrap:wrap}#graph{max-height:610px;background:#f0f2ed;margin:18px 0}.edge{stroke:#97a398;stroke-width:2.3}.node text{font:600 15px Helvetica,Arial,sans-serif}.node circle{stroke:#f0f2ed;stroke-width:2}.legend{font-size:14px}button{border-radius:4px;font-size:14px;padding:8px 12px;background:white}button:disabled{opacity:.45;cursor:default}.vertices{gap:7px}.vertices button{min-width:38px;padding:7px}.small{font-size:14px}.rules{font-size:16px;line-height:1.5;margin:16px 0 22px;padding-left:24px}.rules li{padding:8px 0}.status{background:transparent;border-top:1px solid #d1d5ce;border-bottom:1px solid #d1d5ce;border-left-width:3px;margin:18px 0;padding:14px;font-size:15px}.status.invalid{background:#fff1eb}#violations{font-size:15px;line-height:1.5;padding-left:22px}dl{font-size:14px;gap:10px;grid-template-columns:78px 1fr}.scope{max-width:none;display:grid;grid-template-columns:1fr 1fr;gap:12px 32px;font-size:13px;margin-top:10px}.scope p{margin:0}.scope a{align-self:end}
+@media(max-width:850px){main{padding:24px}.workspace{grid-template-columns:1fr}.details{border-left:0;border-top:1px solid #d1d5ce;padding-left:0}.graph-panel{padding-bottom:0}#graph{max-height:560px}.scope{grid-template-columns:1fr}.workspace{gap:20px}}
+@media(max-width:480px){main{padding:20px}h1{font-size:30px}.panel-head h2{font-size:18px}.panel-head button{font-size:12px;padding:8px}#graph{margin-top:14px}.small{font-size:13px}}
 </style></head><body><main>
-<header><p class="eyebrow">Graph certificates / Crumby colorings</p><h1>A coloring you can inspect.</h1>
+<header><p class="eyebrow">Graph certificates / Crumby colorings</p><h1>Crumby coloring</h1>
 <p>Explore one checked graph and its released coloring witness. Change a vertex's color to see which rule breaks, then restore the certificate.</p></header>
 <div class="workspace"><section class="graph-panel" aria-labelledby="graph-title">
 <div class="panel-head"><h2 id="graph-title">Selected graph</h2><div><button id="undo" disabled>Undo</button> <button id="reset">Restore witness</button></div></div>
@@ -51,7 +56,7 @@ function el(tag,attrs){const e=document.createElementNS(ns,tag);for(const[k,v]of
 record.edges.forEach(([a,b])=>graph.append(el('line',{x1:points[a][0],y1:points[a][1],x2:points[b][0],y2:points[b][1],class:'edge'})));
 const nodes=[],buttons=[];
 for(let i=0;i<record.order;i++){
- const g=el('g',{class:'node',role:'button',tabindex:'0'}),circle=el('circle',{cx:points[i][0],cy:points[i][1],r:17}),label=el('text',{x:points[i][0],y:points[i][1]});label.textContent=i;
+ const g=el('g',{class:'node',role:'button',tabindex:'0'}),circle=el('circle',{cx:points[i][0],cy:points[i][1],r:19}),label=el('text',{x:points[i][0],y:points[i][1]});label.textContent=i;
  g.append(circle,label);g.addEventListener('click',()=>toggle(i));g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle(i)}});graph.append(g);nodes.push(g);
  const b=document.createElement('button');b.textContent=i;b.addEventListener('click',()=>toggle(i));document.getElementById('vertices').append(b);buttons.push(b);
 }
